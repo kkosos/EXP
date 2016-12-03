@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/reg', function(req, res, next) {
-  res.send('reg');
+  res.render('users/reg')
 });
 
 router.get('/login', function(req, res, next) {

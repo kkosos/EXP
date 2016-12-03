@@ -4,10 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
+//var session = require('express-session');
+//var MongoStore = require('connect-mongo')(session);
+
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-
+var apis  = require('./routes/apis');
 var app = express();
 
 // view engine setup
@@ -24,6 +29,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/apis',apis)
+
+//session
+//app.use(session({
+//    secret: 'fooss',
+//    store: new MongoStore(
+//	{
+//	url:'mongodb://localhost/minifb)'
+//	}
+//   )
+//}));
+
+//cookie-base session
+app.use(cookieSession({
+	key:'fb-node';
+	secret:'Hopeitwork';
+	
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
