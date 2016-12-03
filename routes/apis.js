@@ -11,14 +11,36 @@ var expanda_account=mongoose.model('expanda_account')
 //register
 
 router.post('/reg',function(req,res,next) {
+    
     //check if input username or passwd
-    if((!req.body.username)||(!req.body.passwd))
+    if((!req.body.account)||(!req.body.password))
     {
         res.redirect('/users/reg');
         return;
     }
-
-    res.redirect('/')
+    
+   /* if(!req.session.name){
+        res.redirect('/');
+    };*/
+    var tmp_acc =new expanda_account({
+        username:req.body.account,
+        passwd:req.body.password
+    });
+    //tmp_acc.speak();
+    tmp_acc.save(
+        function(err)
+        {
+            if(err){console.log("reg to db err.")}
+        }
+    );
+      /*  fucntion(err
+        {
+            if(err){console.log("reg to db err.")}
+        }
+           
+           );*/
+    
+    res.redirect('/');
 
 
     
@@ -28,13 +50,13 @@ router.post('/reg',function(req,res,next) {
 
 router.post('/login',function(req,res,next) {
     //check if input username or passwd
-    if((!req.body.username)||(!req.body.passwd))
+    if((!req.body.account)||(!req.body.password))
     {
-        res.redirect('/users/login');
+        res.redirect('/');
         return;
     }
-    res.session.name = req.body.username;
-    res.session.passwd = req.body.passwd;
+    res.session.name = req.body.account;
+    res.session.passwd = req.body.password;
     req.session.logined=true;
     res.redirect('/')
 

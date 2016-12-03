@@ -1,6 +1,9 @@
+require('../lib/db')
+var mongoose = require('mongoose');
 var express = require('express');
 var router = express.Router();
 
+var expanda_account=mongoose.model('expanda_account')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   
