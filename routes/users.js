@@ -3,7 +3,14 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    if(req.session.logined){
+    res.redirect('/');
+    return;  
+  }
+  res.render('/');
+  
+  
+  
 });
 
 
@@ -14,7 +21,7 @@ router.get('/reg', function(req, res, next) {
   }
   res.render('users/register');
 });
-
+/*
 router.get('/login', function(req, res, next) {
   if(req.session.logined){
     res.redirect('/');
@@ -24,7 +31,7 @@ router.get('/login', function(req, res, next) {
   
   
 });
-
+*/
 router.get('/logout', function(req, res, next) {
   req.session.logined = false;
   res.redirect('/');
