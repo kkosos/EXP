@@ -27,6 +27,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.use(cookieSession({
+	key:'node',
+	secret:'Hopeitwork'
+	
+}));
+
+
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/apis',apis)
@@ -42,11 +51,6 @@ app.use('/apis',apis)
 //}));
 
 //cookie-base session
-app.use(cookieSession({
-	key:'fb-node';
-	secret:'Hopeitwork';
-	
-}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

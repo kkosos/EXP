@@ -8,15 +8,33 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/reg', function(req, res, next) {
-  res.render('users/reg')
+  if(req.session.logined){
+    res.redirect('/');
+    return; 
+  }
+  res.render('users/register');
 });
 
 router.get('/login', function(req, res, next) {
-  res.send('reg');
+  if(req.session.logined){
+    res.redirect('/');
+    return;  
+  }
+  res.render('users/signin');
+  
+  
 });
 
 router.get('/logout', function(req, res, next) {
-  res.send('reg');
+  req.session.logined = false;
+  res.redirect('/');
+  res.end()
 });
 
+
+router.get('/test', function(req, res, next) {
+  
+  res.send('hhh');
+  
+});
 module.exports = router;
