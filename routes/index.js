@@ -8,10 +8,17 @@ var expanda_account=mongoose.model('expanda_account')
 router.get('/', function(req, res, next) {
   
   //return to page the variable
-  //res.local.username = req.session.name;
-  //res.local.sauthenticated = req.session.logined;
+  
+  console.log(req.session.logined)
   
   
+  
+  res.locals.username = req.session.name;
+  res.locals.authenticated = req.session.logined;
+  
+ // res.locals.username= req.session.name;
+ // res.locals.authenticated=false;
+  //console.log(req.session.name)
   res.render('index', { title: 'EX-PANDA' });
 });
 

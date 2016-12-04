@@ -5,11 +5,10 @@ var router = express.Router();
 
 var expanda_account=mongoose.model('expanda_account')
 /* GET users listing. */
+
+
 router.get('/', function(req, res, next) {
-    if(req.session.logined){
-    res.redirect('/');
-    return;  
-  }
+
   res.render('/');
   
   
@@ -36,9 +35,12 @@ router.get('/login', function(req, res, next) {
 });
 */
 router.get('/logout', function(req, res, next) {
-  req.session.logined = false;
-  res.redirect('/');
-  res.end()
+  req.session.regenerate(function(){
+    req.session.logined = false;
+    res.redirect('/')  
+  }) 
+  
+  
 });
 
 

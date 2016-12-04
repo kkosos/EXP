@@ -19,9 +19,10 @@ router.post('/reg',function(req,res,next) {
         return;
     }
     
-   /* if(!req.session.name){
+    if(req.session.logined){
         res.redirect('/');
-    };*/
+        return;
+    };
 
      
     var ttt=expanda_account.findOne({username:req.body.account},function(err,doc){
@@ -43,41 +44,44 @@ router.post('/reg',function(req,res,next) {
            res.redirect('/');
            return;
         
-    });
-       
-  
-           
-    
-  
-
-
-    
+    });           
 }
 );
 
 
 router.post('/login',function(req,res,next) {
     //check if input username or passwd
+    
+    
     if((!req.body.account)||(!req.body.password))
     {
         res.redirect('/');
         return;
     }
+    
+    if(req.session.logined){
+        res.redirect('/');
+        return;
+    };
+    
+    
     expanda_account.findOne({username:req.body.account,passwd:req.body.password}
                          ,function(err,user){
-        if(err){
+        if(!user){
         console.log("Login failed.")
+        
+         res.redirect('/')
+        return;
         }
-        else{            
         //res.session={name:req.body.account,passwd:req.body.password,logined:true}
         req.session.name =req.body.account;    
         req.session.passwd = req.body.password;
-        req.session.logined=true;        
-        }                
+        req.session.logined=1;             
+        
+         res.redirect('/')                
         }    
     )
     
-    res.redirect('/')
 
 
     
