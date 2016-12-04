@@ -22,18 +22,25 @@ router.post('/reg',function(req,res,next) {
    /* if(!req.session.name){
         res.redirect('/');
     };*/
-    var tmp_acc =new expanda_account({
-        username:req.body.account,
-        passwd:req.body.password
-    });
+
+     if(!expanda_account.find().exists(req.body.account)){
+         
+            var tmp_acc =new expanda_account({
+            username:req.body.account,
+            passwd:req.body.password
+        });
     //tmp_acc.speak();
-    tmp_acc.save(
-        function(err)
-        {
-            if(err){console.log("reg to db err.")}
-        }
-    );
+        tmp_acc.save(
+            function(err)
+            {
+                if(err){console.log("reg to db err.")}
+            }
+        );
      
+    }
+    else{        
+        res.redirect('/users/reg');    
+    }
     
     res.redirect('/');
 
@@ -50,11 +57,20 @@ router.post('/login',function(req,res,next) {
         res.redirect('/');
         return;
     }
+    expanda_account.findOne({username:req.body.account,passwd:req.body.password}
+                         ,function(err,user){
+        if(err){
+        console.log("Login failed.")
+        }
+        else{            
+        //res.session={name:req.body.account,passwd:req.body.password,logined:true}
+        req.session.name =req.body.account;    
+        req.session.passwd = req.body.password;
+        req.session.logined=true;        
+        }                
+        }    
+    )
     
-    
-    res.session.name = req.body.account;    
-    res.session.passwd = req.body.password;
-    req.session.logined=true;
     res.redirect('/')
 
 
