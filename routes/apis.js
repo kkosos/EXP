@@ -33,12 +33,7 @@ router.post('/reg',function(req,res,next) {
             if(err){console.log("reg to db err.")}
         }
     );
-      /*  fucntion(err
-        {
-            if(err){console.log("reg to db err.")}
-        }
-           
-           );*/
+     
     
     res.redirect('/');
 
@@ -55,7 +50,9 @@ router.post('/login',function(req,res,next) {
         res.redirect('/');
         return;
     }
-    res.session.name = req.body.account;
+    
+    
+    res.session.name = req.body.account;    
     res.session.passwd = req.body.password;
     req.session.logined=true;
     res.redirect('/')
