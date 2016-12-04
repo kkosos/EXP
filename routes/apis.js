@@ -23,26 +23,32 @@ router.post('/reg',function(req,res,next) {
         res.redirect('/');
     };*/
 
-     if(!expanda_account.find().exists(req.body.account)){
-         
+     
+    var ttt=expanda_account.findOne({username:req.body.account},function(err,doc){
+            //if username exist
+            if(doc)
+                return res.redirect('/users/reg')
+            //if not exist then go down
+            
             var tmp_acc =new expanda_account({
             username:req.body.account,
             passwd:req.body.password
-        });
-    //tmp_acc.speak();
-        tmp_acc.save(
-            function(err)
-            {
-                if(err){console.log("reg to db err.")}
-            }
-        );
-     
-    }
-    else{        
-        res.redirect('/users/reg');    
-    }
+            });
+   
+            tmp_acc.save(function(err)
+                {
+                    if(err){console.log("reg to db err.")}
+                });
+        
+           res.redirect('/');
+           return;
+        
+    });
+       
+  
+           
     
-    res.redirect('/');
+  
 
 
     
