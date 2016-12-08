@@ -50,7 +50,8 @@ router.get('/idpage',function(req,res,next){
                 function(err,arts){ 
                   if(err){console.log("get article err");return;}
                   if(!arts){console.log("no article");return;}
-                  res.render('users/show_article',{id:req.session.name,arts:articles})
+                
+                  res.render('users/show_article',{id:req.session.name,arts:arts})
                 }
               )
   
