@@ -4,6 +4,8 @@ var express = require('express');
 var router = express.Router();
 
 var expanda_account=mongoose.model('expanda_account')
+
+var Article = mongoose.model('Article',Article)
 /* GET home page. */
 router.get('/', function(req, res, next) {
   
@@ -12,14 +14,13 @@ router.get('/', function(req, res, next) {
   console.log(req.session.logined)
   
   
-  
-  res.locals.username = req.session.name;
-  res.locals.authenticated = req.session.logined;
-  
- // res.locals.username= req.session.name;
- // res.locals.authenticated=false;
-  //console.log(req.session.name)
-  res.render('index', { title: 'EX-PANDA' });
+    res.locals.username = req.session.name;
+    res.locals.authenticated = req.session.logined;
+  if(!req.session.logined)
+    res.render('index', { title: 'EX-PANDA' });
+  else{
+    res.redirect('users/idpage')
+  }
 });
 
 module.exports = router;

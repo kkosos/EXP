@@ -6,7 +6,7 @@ var router = express.Router();
 //db setting
 var mongoose = require('mongoose');
 var expanda_account=mongoose.model('expanda_account')
-
+var Article = mongoose.model('Article',Article)
 
 //register
 
@@ -67,9 +67,7 @@ router.post('/login',function(req,res,next) {
     
     expanda_account.findOne({username:req.body.account,passwd:req.body.password}
                          ,function(err,user){
-        if(!user){
-        console.log("Login failed.")
-        
+        if(!user){        
          res.redirect('/')
         return;
         }
@@ -80,13 +78,35 @@ router.post('/login',function(req,res,next) {
         
          res.redirect('/')                
         }    
-    )
-    
-
-
-    
+    )    
 }
 );
+
+
+router.post('/add_article',function(req,res,next){
+    console.log("now to add")
+    console.log(req.body.article)
+    if(!req.session.name){
+        res.redirect('/')
+    }
+    
+    new Article({
+        username:req.session.name,
+        Context:req.body.article
+    }).save(function(err){
+        if(err){console.log('Context save failed');return;}
+        console.log('save to db context')
+    })
+    
+    res.redirect('/');
+    
+    
+});
+
+
+
+
+
 
 
 module.exports = router;

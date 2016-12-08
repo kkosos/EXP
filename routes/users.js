@@ -4,15 +4,13 @@ var express = require('express');
 var router = express.Router();
 
 var expanda_account=mongoose.model('expanda_account')
+
+var Article = mongoose.model('Article',Article)
 /* GET users listing. */
 
 
 router.get('/', function(req, res, next) {
-
   res.render('/');
-  
-  
-  
 });
 
 
@@ -42,7 +40,30 @@ router.get('/logout', function(req, res, next) {
   
   
 });
+router.get('/idpage',function(req,res,next){
+  if(!req.session.name||!req.session.logined)
+  { 
+    res.redirect('/')
+  }
+  
+  Article.find({username:req.session.name},
+                function(err,arts){ 
+                  if(err){console.log("get article err");return;}
+                  if(!arts){console.log("no article");return;}
+                  res.render('users/show_article',{id:req.session.name,arts:articles})
+                }
+              )
+  
+  
 
+
+})
+
+router.get('/add_test', function(req, res, next) {
+  
+  res.render('users/add_article');
+  
+});
 
 router.get('/test', function(req, res, next) {
   
