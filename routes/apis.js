@@ -110,14 +110,14 @@ router.post('/add_friend/:target',function(req,res,next){
         res.redirect('/')
     }*/
     //check the user and the target is friend
-    //console.log("ADD")
-    //console.log(req.params.target)
-    
+    console.log("ADD")
+    console.log(req.params.target)
+    var target = req.params.target
     
     //just add relation
     new Relation({
         host:req.session.name,
-        guest:req.params.target
+        guest:target
     }).save(function(err){
         if(err){console.log('Context save failed');return;}
         console.log('save to db context')

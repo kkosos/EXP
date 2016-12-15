@@ -19,7 +19,8 @@ router.get('/', function(req, res, next) {
   if(!req.session.logined)
     res.render('index', { title: 'EX-PANDA' });
   else{
-    res.redirect('users/idpage')
+    
+    res.redirect('/users/a/'+req.session.name)
   }
 });
 
