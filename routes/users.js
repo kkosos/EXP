@@ -60,6 +60,27 @@ router.get('/idpage',function(req,res,next){
 
 })
 
+router.get('/a/:name',function(req,res,next){
+  /*if(!req.session.name||!req.session.logined)
+  { 
+    res.redirect('/')
+  }*/
+  //req.params.name
+  console.log("hi")
+  Article.find({username:req.params.name},
+                function(err,arts){ 
+                  if(err){console.log("get article err");return;}
+                  if(!arts){console.log("no article");return;}
+                
+                  res.render('users/show_article',{id:req.params.name,arts:arts})
+                }
+              )
+
+})
+
+
+
+
 router.get('/add_test', function(req, res, next) {
   
   res.render('users/add_article');

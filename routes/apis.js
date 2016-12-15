@@ -84,8 +84,8 @@ router.post('/login',function(req,res,next) {
 
 
 router.post('/add_article',function(req,res,next){
-    console.log("now to add")
-    console.log(req.body.article)
+    //console.log("now to add")
+    //console.log(req.body.article)
     if(!req.session.name){
         res.redirect('/')
     }
@@ -103,7 +103,20 @@ router.post('/add_article',function(req,res,next){
     
 });
 
+router.post('/add_friend/:target',function(req,res,next){
+    /*if(!req.session.name||!req.session.logined)
+    { 
+        res.redirect('/')
+    }*/
+    //check the user and the target is friend
+    console.log("ADD")
+    console.log(req.params.target)
+    //expanda_account.findOne({username:req.session.name,friend:}
+    
+    res.redirect('/')
 
+
+});
 
 
 
