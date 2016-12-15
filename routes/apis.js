@@ -109,19 +109,36 @@ router.post('/add_friend/:target',function(req,res,next){
     { 
         res.redirect('/')
     }*/
+    
+    //check logined
+    if(!req.session.logined)
+    {
+        res.redirect('/')
+    }
+    
+    
     //check the user and the target is friend
     console.log("ADD")
     console.log(req.params.target)
     var target = req.params.target
     
     //just add relation
-    new Relation({
-        host:req.session.name,
-        guest:target
-    }).save(function(err){
-        if(err){console.log('Context save failed');return;}
-        console.log('save to db context')
-    })
+    
+     Relation.findOne({host:req.session.name,guest:target},function(err,users){
+            if(!users){
+                    new Relation({
+                    host:req.session.name,
+                    guest:target
+                }).save(function(err){
+                    if(err){console.log('Context save failed');return;}
+                    console.log('save to db context')
+                })
+     
+            }
+            
+     });
+    
+    
     /*
     
     relationship.save({username:req.session.name},{"$addToSet":{"friend":"bsdss"}},function(err,docs){

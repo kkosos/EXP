@@ -67,12 +67,25 @@ router.get('/a/:name',function(req,res,next){
   }*/
   //req.params.name
   console.log("hi")
+  var owned=false;
   Article.find({username:req.params.name},
                 function(err,arts){ 
                   if(err){console.log("get article err");return;}
                   if(!arts){console.log("no article");return;}
                 
-                  res.render('users/show_article',{id:req.params.name,arts:arts})
+                  //check whick one view the page
+                  if(req.session.logined){
+                    //user see his own page
+                    if(req.session.name==req.params.name){owned=true;}
+                    //other users see page, need to check friend
+                    else{
+                      //check relation first(has invited?)
+                      //if no just show add
+                    }
+                  }
+    
+    
+                  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned})
                 }
               )
 

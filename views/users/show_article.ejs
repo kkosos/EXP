@@ -26,9 +26,11 @@
 			<% console.log("end")} %>
 		</div>
 		<div id="clear2"></div>
+		<% if(!owned) { %>
 		<form action="/apis/add_friend/<%= id %>" method="POST">
 		<input type="submit" value="Add friend">
 		</form>
+		<% } %>
 	
 		
 	</div>
