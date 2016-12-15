@@ -6,6 +6,7 @@ var router = express.Router();
 //db setting
 var mongoose = require('mongoose');
 var expanda_account=mongoose.model('expanda_account')
+var Relation=mongoose.model('relationship')
 var Article = mongoose.model('Article',Article)
 
 //register
@@ -109,9 +110,25 @@ router.post('/add_friend/:target',function(req,res,next){
         res.redirect('/')
     }*/
     //check the user and the target is friend
-    console.log("ADD")
-    console.log(req.params.target)
-    //expanda_account.findOne({username:req.session.name,friend:}
+    //console.log("ADD")
+    //console.log(req.params.target)
+    
+    
+    //just add relation
+    new Relation({
+        host:req.session.name,
+        guest:req.params.target
+    }).save(function(err){
+        if(err){console.log('Context save failed');return;}
+        console.log('save to db context')
+    })
+    /*
+    
+    relationship.save({username:req.session.name},{"$addToSet":{"friend":"bsdss"}},function(err,docs){
+        if(err){console.log("add friend")}
+    
+    
+    })*/
     
     res.redirect('/')
 
