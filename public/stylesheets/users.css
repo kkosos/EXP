@@ -1,3 +1,9 @@
+#sitebody{
+　width:600px;
+ height:1300px;
+　margin:0 auto;
+　font-size:13px;
+}
 body {margin:0;background-color:white;}
 ul {
 	border: 1px solid #e7e7e7;
@@ -10,6 +16,7 @@ ul {
     top: 0;
     width: 100%;
 }
+
 a {
     display: block;
     padding: 8px;
@@ -39,3 +46,22 @@ li a {
 	height:60px;
 	width:60px;
 }
+.article_author{
+	font-size :large;
+	text-align:left;
+	height:50px;
+	width:200px;
+	border:3px #cccccc solid;
+	margin: 0;
+    padding: 0;
+}
+.article{
+	font-size :large;
+	text-align:left;
+	height:100px;
+	width:200px;
+	border:3px #cccccc solid;
+	margin: 0;
+    padding: 0;
+}
+
