@@ -24,4 +24,15 @@ router.get('/', function(req, res, next) {
   }
 });
 
+router.get('/tttt', function(req, res, next) {
+  
+  //return to page the variable
+  
+  console.log(req.session.logined)
+  
+  
+    
+    res.render('users/userspage', { title: 'EX-PANDA' });
+ 
+});
 module.exports = router;
