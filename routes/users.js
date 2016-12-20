@@ -67,7 +67,8 @@ router.get('/a/:name',function(req,res,next){
   }*/
   //req.params.name
   console.log("hi")
-  var owned=false;
+  //owned: "myself" "invite_not_send" "invite_send" "accept_invite"
+  var owned="invite_not_send";
   Article.find({username:req.params.name},
                 function(err,arts){ 
                   if(err){console.log("get article err");return;}
@@ -76,21 +77,44 @@ router.get('/a/:name',function(req,res,next){
                   //check whick one view the page
                   if(req.session.logined){
                     //user see his own page
-                    if(req.session.name==req.params.name){owned=true;}
+                    if(req.session.name==req.params.name){owned="myself";}
                     //other users see page, need to check friend
                     else{
                       //check relation first(has invited?)
-                      //if no just show add
+                      Relation.findOne({host:req.session.name,guest:req.params.name}
+						,function(err,relate){
+							if(err){console.log("invited check err")}
+						  //invited
+							if(relate){owned="invite_send";}
+						  //not invite check target invite myself
+							else{
+								Relation.findOne({host:req.params.name,guest:req.session.name}
+								,function(err,relate){
+									if(err){console.log("invited check err2");}
+									//target has send me invite I need to accept it
+									if(relate){owned="accept_invite";}							
+									//both of us dont send invite
+									else{owned="invite_not_send";}
+								}								
+								);
+							}
+							
+						}						  
+					  );					  
+					  //if no just show add					  
+					  
+					  
+					  
                     }
-                  }
+				  }
+                  
     
     
                   res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned})
                 }
-              )
+              );
 
-})
-
+});
 
 
 
