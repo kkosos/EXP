@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 var expanda_account=mongoose.model('expanda_account')
-
+var Relation=mongoose.model('relationship')
 var Article = mongoose.model('Article',Article)
 /* GET users listing. */
 
