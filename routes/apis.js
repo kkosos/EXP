@@ -7,7 +7,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var expanda_account=mongoose.model('expanda_account')
 var Relation=mongoose.model('relationship')
-var Article = mongoose.model('Article',Article)
+var Article = mongoose.model('Article')
+var friend_list = mongoose.model('friend_list')
 
 //register
 
@@ -104,6 +105,78 @@ router.post('/add_article',function(req,res,next){
     
 });
 
+router.post('/add_friend_accept/:target',function(req,res,next){
+    if(!req.session.logined)
+    {
+        return res.redirect('/');
+    }      
+     var target = req.params.target;
+    console.log(target)
+    
+     friend_list.findOne({host:req.session.name,guest:target},function(err,users){
+            if(!users){
+                    new friend_list({
+                    host:req.session.name,
+                    friend:target
+                }).save(function(err){
+                    if(err){console.log('Context save failed');return;}
+                    console.log('save to db context')
+                })
+                    
+                    new friend_list({
+                    host:target,
+                    friend:req.session.name
+                }).save(function(err){
+                    if(err){console.log('Context save failed');return;}
+                    console.log('save to db context')
+                })
+                    
+                    Relation.remove({host:target,guest:req.session.name},function(err){
+                    if(err)console.log("fuck you")
+                    return res.redirect('/users/a/'+target);
+                    })
+                    
+     
+            }
+            
+     });
+    
+    
+    
+});
+router.post('/add_friend_cancel/:target',function(req,res,next){
+    if(!req.session.logined)
+    {
+        return res.redirect('/');
+    }      
+    var target = req.params.target;
+            Relation.remove({host:req.session.name,guest:target},function(err){
+                    if(err)console.log("fuck you")
+                    return res.redirect('/users/a/'+target);
+                    })
+     return res.redirect('/');
+
+});
+
+router.post('/delete_friend/:target',function(req,res,next){
+    if(!req.session.logined)
+    {
+        return res.redirect('/');
+    }      
+    console.log("hi323")
+    var target = req.params.target;
+                    friend_list.remove({host:req.session.name,friend:target},function(err){
+                    if(err)console.log("fuck you")
+                            friend_list.remove({host:target,friend:req.session.name},function(err){
+                            if(err)console.log("fuck you")
+                            return res.redirect('/users/a/'+target);
+                            })
+                    
+                    })
+    
+
+});
+
 router.post('/add_friend/:target',function(req,res,next){
     /*if(!req.session.name||!req.session.logined)
     { 
@@ -113,13 +186,10 @@ router.post('/add_friend/:target',function(req,res,next){
     //check logined
     if(!req.session.logined)
     {
-        res.redirect('/')
-    }
-    
-    
+        return res.redirect('/');
+    }        
     //check the user and the target is friend
-    console.log("ADD")
-    console.log(req.params.target)
+   
     var target = req.params.target
     
     //just add relation
@@ -135,6 +205,7 @@ router.post('/add_friend/:target',function(req,res,next){
                 })
      
             }
+         
             
      });
     
@@ -147,7 +218,7 @@ router.post('/add_friend/:target',function(req,res,next){
     
     })*/
     
-    res.redirect('/')
+    res.redirect('/');
 
 
 });

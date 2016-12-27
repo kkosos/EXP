@@ -10,7 +10,9 @@
 				<li style="text-align:center;"><img  class="logo" src="/images/logo.png"> </li>
 			  	<li><a href="/" class="active">Home</a></li>
 			  	<li><a href="/users/notification">Notification</a></li>
+				<% if(authenticated){ %>
 			  	<li style="float:right;"><a href="/users/logout">Logout</a></li>
+				<% } %>
 			</ul>
 		</div>
 		<div style="clear:both"></div><br><br><br>
@@ -29,7 +31,7 @@
 		</div>
 		
 		<% if(owned=="accept_invite"){ %>
-		<form action="/apis/add_friend/<%= id %>" method="POST">
+		<form action="/apis/add_friend_accept/<%= id %>" method="POST">
 		<input type="submit" value="accept_invite">
 		</form>
 		<% } 
@@ -39,8 +41,12 @@
 		</form>
 		<% } 
 		 else if(owned=="invite_send" ){ %>
-		<form action="/apis/add_friend/<%= id %>" method="POST">
+		<form action="/apis/add_friend_cancel/<%= id %>" method="POST">
 		<input type="submit" value="invite_send">
+		</form>
+		<% }  else if(owned=="friend" ){ %>
+		<form action="/apis/delete_friend/<%= id %>" method="POST">
+		<input type="submit" value="friend">
 		</form>
 		<% } %>
 		

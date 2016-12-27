@@ -5,7 +5,9 @@ var router = express.Router();
 
 var expanda_account=mongoose.model('expanda_account')
 var Relation=mongoose.model('relationship')
-var Article = mongoose.model('Article',Article)
+var Article = mongoose.model('Article')
+
+var friend_list = mongoose.model('friend_list')
 /* GET users listing. */
 
 
@@ -61,13 +63,11 @@ router.get('/idpage',function(req,res,next){
 })
 
 router.get('/a/:name',function(req,res,next){
-  /*if(!req.session.name||!req.session.logined)
-  { 
-    res.redirect('/')
-  }*/
+
+  res.locals.authenticated = req.session.logined;
   //req.params.name
   console.log("hi")
-  //owned: "myself" "invite_not_send" "invite_send" "accept_invite"
+  //owned: "myself" "invite_not_send" "invite_send" "accept_invite" "friend"
   var owned="invite_not_send";
   Article.find({username:req.params.name},
                 function(err,arts){ 
@@ -78,54 +78,69 @@ router.get('/a/:name',function(req,res,next){
                   if(req.session.logined){
                     //user see his own page
                     if(req.session.name==req.params.name){owned="myself";
-                                                          console.log(owned+"1");
+                   console.log(owned+"1");
                   res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
-                   return;
-                                                         
-                                                         }
+                   return;                                                         
+                       }
                     //other users see page, need to check friend
                     else{
-                      //check relation first(has invited?)
-                      Relation.findOne({host:req.session.name,guest:req.params.name}
-						,function(err,relate){
-							if(err){console.log("invited check err")}
-						  //invited
-                        console.log("here!in");
-							if(relate){console.log("here!asdasd");owned="invite_send";  
-                           console.log(owned+"3");
-                  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
-                  return;
-                         
-                        }
-						  //not invite check target invite myself
-							else{
-                console.log("here!inasascasf");
-								Relation.findOne({host:req.params.name,guest:req.session.name}
-								,function(err,relate){
+                      //check if we are friend first
+                      friend_list.findOne({host:req.session.name,friend:req.params.name},function(err,doc){      
+                      	//we are friedn
+						  if(doc){ 
+							  owned="friend";
+							  console.log(owned+"3");
+								  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
+								  return;}
+						  
+						 //we are not friend yet
+					  else{
+										//check relation first(has invited?)
+							  Relation.findOne({host:req.session.name,guest:req.params.name}
+												,function(err,relate){
+							  if(err){console.log("invited check err")}
+							  //invited
+							  if(relate){owned="invite_send";  
+								   console.log(owned+"3");
+								  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
+								  return;
+
+										}
+								//not invite, check target invite myself
+								else{
+								  console.log("here!inasascasf");
+								  Relation.findOne({host:req.params.name,guest:req.session.name}
+								  ,function(err,relate){
 									if(err){console.log("invited check err2");}
 									//target has send me invite I need to accept it
 									if(relate){console.log("here!");owned="accept_invite";}							
-									//both of us dont send invite
+									//both of us dont send
 									else{owned="invite_not_send";}
-                  
-                  console.log(owned+"2");
-                  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
-                  return;
-               
-								}						
-								);
-							}
-							
-						}						  
-					  );					  
-					  //if no just show add					  
+
+									console.log(owned+"2");
+									res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
+									return;
+
+								  }						
+										);
+									}
+
+								}						  
+							  );
 					  
-					  
-					  
-                    }
-                    
-                
+					  	}
+                      					  
+                      
+           				});
+                      
+                	
+           }   
 				  }
+          else {
+            console.log("444");
+          res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
+          return ;
+          }
                   
     
                   
