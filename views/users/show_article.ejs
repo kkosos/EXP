@@ -27,11 +27,23 @@
 			<div class ="article"><%= arts[i].Context%></div><br>
 			<% console.log("end")} %>
 		</div>
-		<% if(!owned) { %>
+		
+		<% if(owned=="accept_invite"){ %>
 		<form action="/apis/add_friend/<%= id %>" method="POST">
-		<input type="submit" value="Add friend">
+		<input type="submit" value="accept_invite">
+		</form>
+		<% } 
+		 else if(owned=="invite_not_send"){ %>
+		<form action="/apis/add_friend/<%= id %>" method="POST">
+		<input type="submit" value="invite_not_send">
+		</form>
+		<% } 
+		 else if(owned=="invite_send" ){ %>
+		<form action="/apis/add_friend/<%= id %>" method="POST">
+		<input type="submit" value="invite_send">
 		</form>
 		<% } %>
+		
 	</div>
 </body>
 

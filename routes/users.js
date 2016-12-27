@@ -77,7 +77,12 @@ router.get('/a/:name',function(req,res,next){
                   //check whick one view the page
                   if(req.session.logined){
                     //user see his own page
-                    if(req.session.name==req.params.name){owned="myself";}
+                    if(req.session.name==req.params.name){owned="myself";
+                                                          console.log(owned+"1");
+                  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
+                   return;
+                                                         
+                                                         }
                     //other users see page, need to check friend
                     else{
                       //check relation first(has invited?)
@@ -85,17 +90,29 @@ router.get('/a/:name',function(req,res,next){
 						,function(err,relate){
 							if(err){console.log("invited check err")}
 						  //invited
-							if(relate){owned="invite_send";}
+                        console.log("here!in");
+							if(relate){console.log("here!asdasd");owned="invite_send";  
+                           console.log(owned+"3");
+                  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
+                  return;
+                         
+                        }
 						  //not invite check target invite myself
 							else{
+                console.log("here!inasascasf");
 								Relation.findOne({host:req.params.name,guest:req.session.name}
 								,function(err,relate){
 									if(err){console.log("invited check err2");}
 									//target has send me invite I need to accept it
-									if(relate){owned="accept_invite";}							
+									if(relate){console.log("here!");owned="accept_invite";}							
 									//both of us dont send invite
 									else{owned="invite_not_send";}
-								}								
+                  
+                  console.log(owned+"2");
+                  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned});
+                  return;
+               
+								}						
 								);
 							}
 							
@@ -106,11 +123,12 @@ router.get('/a/:name',function(req,res,next){
 					  
 					  
                     }
+                    
+                
 				  }
                   
     
-    
-                  res.render('users/show_article',{id:req.params.name,arts:arts,owned:owned})
+                  
                 }
               );
 
