@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
   
   //return to page the variable
   
-  console.log(req.session.logined)
+ // console.log(req.session.logined)
   
   
     res.locals.username = req.session.name;
