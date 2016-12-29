@@ -20,8 +20,8 @@
 		<!--navigator -->
 		<div style="clear:both"></div><br><br><br>
 	　	<div id="sidebar_left" style="float:left;width:30%;">
-			<a  class="sidebar" href="/users/add_test" >Post</a>
-			<a  class="sidebar" href="/users/friend_list" >Friend_List</a>
+			<a  class="sidebar" href="/users/add" >Post</a>
+			<a  class="sidebar" href="/users/friend_list/<%= id %>" >Friend_List</a>
 			<iframe id="panda" src="http://www.pandorabots.com/pandora/talk?botid=8693dba7ee37b4f6&skin=a">
 			</iframe>
 		</div>
@@ -31,9 +31,11 @@
 			<% for(var i in arts){ console.log(i); %>
 			<div class ="article_author"><%= arts[i].username%><br></div>
 			<div class ="article"> <%= arts[i].Context %> </div><br>
-			<div class ="Date"> <%= arts[i].Date %> <a href='/apis/delete_article/<%= arts[i]._id %>'> delete</a> </div><br>	
-			
-			<% console.log("end")} %>
+			<div> <%= arts[i].Date %> </div>
+			<% if(owned=="myself"){ %>
+			<a href='/apis/delete_article/<%= arts[i]._id %>'> delete</a>
+			<div> <a href='/users/update/<%= arts[i]._id %>'> update</a> </div><br>
+			<% } console.log("end")} %>
 		</div>
 		<!-- friend button -->
 		<% if(owned=="accept_invite"){ %>

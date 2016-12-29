@@ -151,11 +151,40 @@ router.get('/a/:name',function(req,res,next){
 
 
 
-router.get('/add_test', function(req, res, next) {
+router.get('/add', function(req, res, next) {
   
   res.render('users/add_article');
   
 });
+router.get('/update/:id', function(req, res, next) {
+  if(!req.session.logined||!req.session.name){
+  	res.redirect('/');
+  }
+  //need show the article content first
+  Article.find({_id:req.params.id},function(err,arts){
+  	if(err){console.log("Find article to update error.");return;}
+	if(arts)
+  	res.render('users/update_article',{id:req.params.id,arts:arts});
+	  
+  })	
+	
+  return;
+  
+});
+
+router.get('/friend_list/:username', function(req, res, next) {
+  //everyone can see it
+  
+  res.locals.authenticated = req.session.logined;	
+  friend_list.find({host:req.params.username},function(err,lst){
+      if(err){console.log("get friend db error.");return;}
+	  
+	  res.render('users/friend_list',{id:req.params.username,lst:lst});
+  });
+	
+  
+});
+
 
 router.get('/test', function(req, res, next) {
   

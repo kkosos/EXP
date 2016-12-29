@@ -97,6 +97,21 @@ router.get('/delete_article/:id',function(req,res,next){
     
 });
 
+router.post('/update_article/:id',function(req,res,next){
+    console.log("now to update")
+    //console.log(req.body.article)
+    if(!req.session.name||!req.session.logined){
+        res.redirect('/')
+    }
+    Article.update({_id:req.params.id},{Context:req.body.article},function(err){if(err)console.log("delete error.");});	
+    
+    res.redirect('/');
+    
+    
+});
+
+
+
 router.post('/add_article',function(req,res,next){
     //console.log("now to add")
     //console.log(req.body.article)
