@@ -1,14 +1,18 @@
 <head>
-    <title>Socket.IO chat</title>
+    <title>EX-PANDA</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      form input { border: 0; padding: 10px; width: 81%; margin-right: .5%; }
+      /*form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }*/
+      #imgdiv  {position:fixed;display:none;border:1px solid silver;background:silver; width:20%;height:35%;overflow:auto;padding:5px}        
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+      #imagebtn { width: 8%; background: rgb(130, 224, 255); border: none; padding: 5px;}
+      .sendit {width: 9%; background: rgb(130, 224, 255); border: none; padding: 5px; }
+      .imgbtn {border: none;padding:0;}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
@@ -17,15 +21,69 @@
 
     <ul id="messages"></ul>
     <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+      <input id="m" autocomplete="off" />
+        <button type="button" id="imagebtn" onClick="show(this,'imgdiv');"  >IMG</button>   
+         
+        <button type="submit" class="sendit">Send</button>
     </form>
     
-    <button type="button" id="btn">IMG</button>
+    <div id="imgdiv"  >     
+        <input type="image" id="imagebtn1" class="imgbtn"  src="/images/01.png"  height="40" width="40" /></button>
+        <input type="image" id="imagebtn2" class="imgbtn"  src="/images/02.png"  height="40" width="40" /></button>
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+  
+    </div> 
     
-    
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io();
+        var socket = io();
+        
+                
+        function show(obj,id) { 
+        
+        var objDiv = $("#"+id+""); 
+        $(objDiv).css("display","inline-block"); 
+        $(objDiv).css("bottom", "8%"); 
+        $(objDiv).css("right", "8%"); 
+            stopPropagation();  
+        } 
+        function hide(obj,id) { 
+        var objDiv = $("#"+id+""); 
+        $(objDiv).css("display", "none"); 
+        }  
+       
+        //bind click
+        $(document).bind('click', function(e) {  
+            var e = e || window.event; 
+            var elem = e.target || e.srcElement; 
+            while (elem) {  //循环判断至跟节点，防止点击的是div子元素   
+                if (elem != document) {  
+                    if (elem.id == "imagebtn"||elem.id == "imgdiv") {  
+                        show("","imgdiv");  
+                        return;  
+                    }  
+                    elem = elem.parentNode;  
+                } else {  
+                        hide("","imgdiv");  
+                        return;
+                }  
+            }        
+        });  
+        
+        $('#imgdiv').bind('click', function(e) {  
+        stopPropagation(e);  
+        });  
+        
        //send button
         $('form').submit(function(){
        //send msg in input field
@@ -34,19 +92,43 @@
         $('#m').val('');
         return false;
       });
+         
+       //img  button
+        
+       $('#imagebtn').click(function(){
+            // add a new div which is fixed                     
+            
+           
+       }) 
+       $('#imagebtn1').click(function(){
+            // add a new div which is fixed                     
+
+            socket.emit('image choose', "img1");
+            return false;
+       })
+       $('#imagebtn2').click(function(){
+            // add a new div which is fixed                     
+  
+            socket.emit('image choose', "img2");
+            return false;
+       })
+
+       
         
        //socket 
-       //msg 
+       //accept msg 
        socket.on('chat message', function(msg){       
-       //var tmp_msg = "<%= id %>:  " + msg;        
-       // $('#messages').prepend($('<li>').text(tmp_msg));
        $('#messages').prepend($('<li>').text(msg));
        });
-       //img
-       socket.on('image', function(img){       
-       //var tmp_msg = "<%= id %>:  " + msg;        
-       // $('#messages').prepend($('<li>').text(tmp_msg));
-       //$('#messages').prepend($('<li>').text(msg));
+       //show image
+       socket.on('image show', function(data){
+           console.log("got image1")
+            if(data.image){
+                console.log("got image2")
+                var image = new Image();
+                image.src = 'data:image/png;base64,' + data.buffer;
+                $('#messages').prepend($('<li>').append('<img src='+ image.src + ' height="60" width="60" />'));
+            }
        });
         
         
