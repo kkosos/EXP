@@ -1,0 +1,32 @@
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 60%; margin-right: .5%; }
+      /*form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }*/
+      #imgdiv  {
+		  position:fixed;
+		  display:none;
+		  border:1px solid silver;
+		  background:silver; 
+		  width:150px;
+		  height:250px;
+		  overflow:auto;
+		  padding:5px}        
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      /*#messages li:nth-child(odd) { background: #eee; }*/
+      
+      #imagebtn { width: 18%; background: rgb(130, 224, 255); border: none; padding: 5px;}
+      
+
+	  .messages_div { padding: 5px 10px; display:block; }
+      .messages_div:nth-child(odd) { background: #D2E9FF }  
+      .text{font-size:135%;}
+      .user{font-size:140%;}  
+      .time{font-size:135%; color:gray}
+      .msg_img{height:60px;width:60px;}
+      .messages_div div{ padding: 5px 10px; display:inline-block; }
+        
+        
+      .sendit {width: 18%; background: rgb(130, 224, 255); border: none; padding: 5px; }
+      .imgbtn {border: none;padding:0;}
