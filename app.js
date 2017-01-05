@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-
+var socket_io    = require( "socket.io" );
 
 var app = express();
 
@@ -32,6 +32,7 @@ app.use(cookieSession({
 	
 }));*/
 
+//session
 
 app.use(session({
    secret: 'fooss',
@@ -42,11 +43,21 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var apis  = require('./routes/apis');
 
+//socket
+var socket_server = require('./routes/socket_server');
+
+var io           = socket_io();
+app.io           = io;
+
+//route
 app.use('/', index);
 app.use('/users', users);
 app.use('/apis',apis)
+app.use('/socket',socket_server)
 
-//session
+var so = require('./routes/socket_s')(io);
+
+	
 
 
 // catch 404 and forward to error handler

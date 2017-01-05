@@ -1,55 +1,84 @@
 <head>
 	<meta charset = "utf-8">
 	<title id ="title">EXPENDA</title>
+	
 	<link rel = "stylesheet" type = "text/css" href = "/stylesheets/users.css">
+	<!--  <link rel = "stylesheet" type = "text/css" href = "/bootstrap-3.3.7-dist/css/bootstrap.min.css"> -->
 </head>
 <body>
 	<div id="sitebody" class="container">
-		<div id="header"role="navigation" style="display: inline-block;">
+		<div id="header" role="navigation" >
 			<ul>
 				<li style="text-align:center;"><img  class="logo" src="/images/logo.png"> </li>
 			  	<li><a href="/" class="active">Home</a></li>
-			  	<li><a href="/users/notification">Notification</a></li>
+			  	<li><a href="/socket/abc">Notification</a></li>
 				<% if(authenticated){ %>
 			  	<li style="float:right;"><a href="/users/logout">Logout</a></li>
 				<% } %>
 			</ul>
 		</div>
-		<div style="clear:both"></div><br><br><br>
-	　	<div class="sidebar" id="sidebar_left" style="float:left;width:30%;">
-			<a   href="/users/add_test" >Post</a>
-			<a   href="/users/friend_list" >Friend_List</a>
-			<iframe  id="panda" src="http://www.pandorabots.com/pandora/talk?botid=8693dba7ee37b4f6&skin=a">
+		<!--navigator -->
+		
+	　	<div id="sidebar_left" >
+			<a  class="sidebar" href="/users/add" >Post</a>
+			<a  class="sidebar" href="/users/friend_list/<%= id %>" >Friend_List</a>
+			
+					
+		<!-- friend button -->
+			<% if(owned=="accept_invite"){ %>
+			<form action="/apis/add_friend_accept/<%= id %>" method="POST">
+			<input type="submit" value="accept_invite">
+			</form>
+			<% } 
+			 else if(owned=="invite_not_send"){ %>
+			<form action="/apis/add_friend/<%= id %>" method="POST">
+			<input type="submit" value="invite_not_send">
+			</form>
+			<% } 
+			 else if(owned=="invite_send" ){ %>
+			<form action="/apis/add_friend_cancel/<%= id %>" method="POST">
+			<input type="submit" value="invite_send">
+			</form>
+			<% }  else if(owned=="friend" ){ %>
+			<form action="/apis/delete_friend/<%= id %>" method="POST">
+			<input type="submit" value="friend">
+			</form>
+			<% } %>
+				
+			<iframe id="panda" src="http://www.pandorabots.com/pandora/talk?botid=8693dba7ee37b4f6&skin=a">
 			</iframe>
 		</div>
-		<div id ="content" style="float:left;">
-			<% console.log(arts)%>
-			<% for(var i in arts){ console.log(i) %>
-			<div class ="article_author"><%= arts[i].username%><br></div>
-			<div class ="article"><%= arts[i].Context%></div><br>
-			<% console.log("end")} %>
+		<!-- show Article    object:arts-->
+				
+			
+		<!-- content div-->
+		<div class ="content">
+				<% console.log(arts)%>
+				<% for(var i in arts){ console.log(i); %>
+					
+				<div class="article">	
+					<div class ="article_author"><%= arts[i].username%></div>
+					<div class ="article_content"> <%= arts[i].Context %> </div>
+					<div class ="article_time"> <%= arts[i].Date %> </div>
+
+
+					<% if(owned=="myself"){ %>
+					<div class="linkbtn" >
+					<div><a href='/apis/delete_article/<%= arts[i]._id %>'> delete</a></div>
+					<div><a href='/users/update/<%= arts[i]._id %>'> update</a> </div>					
+					</div>
+					<% } %>
+					<br>
+				</div>
+				<br><br><br>
+				<%  console.log("end")} %>
+				
+					
+		</div>	
+		<div id="chatroom">
+			<iframe id="chatbar" class="chatroom_bar" src="/socket/chatroom">
+			</iframe>
 		</div>
-		
-		<% if(owned=="accept_invite"){ %>
-		<form action="/apis/add_friend_accept/<%= id %>" method="POST">
-		<input type="submit" value="accept_invite">
-		</form>
-		<% } 
-		 else if(owned=="invite_not_send"){ %>
-		<form action="/apis/add_friend/<%= id %>" method="POST">
-		<input type="submit" value="invite_not_send">
-		</form>
-		<% } 
-		 else if(owned=="invite_send" ){ %>
-		<form action="/apis/add_friend_cancel/<%= id %>" method="POST">
-		<input type="submit" value="invite_send">
-		</form>
-		<% }  else if(owned=="friend" ){ %>
-		<form action="/apis/delete_friend/<%= id %>" method="POST">
-		<input type="submit" value="friend">
-		</form>
-		<% } %>
-		
 	</div>
 </body>
 

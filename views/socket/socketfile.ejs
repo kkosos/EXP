@@ -1,0 +1,166 @@
+<head>
+    <title>EX-PANDA</title>
+
+    <link rel = "stylesheet" type = "text/css" href = "/stylesheets/chatroom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  </head>
+<body>
+<!-- That’s all it takes to load the socket.io-client, which exposes a io global, and then connect-->
+
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" />
+        <button type="button" id="imagebtn" onClick="show(this,'imgdiv');"  >IMG</button>   
+         
+        <button type="submit" class="sendit">Send</button>
+    </form>
+    
+    <div id="imgdiv"  >     
+        <input type="image" id="imagebtn1" class="imgbtn"  src="/images/01.png"  height="40" width="40" /></button>
+        <input type="image" id="imagebtn2" class="imgbtn"  src="/images/02.png"  height="40" width="40" /></button>
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+        <img src="/images/01.png"  height="40" width="40" />
+        <img src="/images/02.png"  height="40" width="40" />
+  
+    </div> 
+    
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        
+                
+        function show(obj,id) {         
+        var objDiv = $("#"+id+""); 
+        $(objDiv).css("display","inline-block"); 
+        $(objDiv).css("bottom", "8%"); 
+        $(objDiv).css("right", "8%"); 
+     
+        } 
+        function hide(obj,id) { 
+        var objDiv = $("#"+id+""); 
+        $(objDiv).css("display", "none"); 
+        }  
+       
+        //bind click to make div show and hide
+        $(document).bind('click', function(e) {  
+            var e = e || window.event; 
+            var elem = e.target || e.srcElement; 
+            while (elem) {  //循环判断至跟节点，防止点击的是div子元素   
+                if (elem != document) {  
+                    if (elem.id == "imagebtn"||elem.id == "imgdiv") {  
+                        show("","imgdiv");  
+                        return;  
+                    }  
+                    elem = elem.parentNode;  
+                } else {  
+                        hide("","imgdiv");  
+                        return;
+                }  
+            }        
+        });  
+        
+        $('#imgdiv').bind('click', function(e) {  
+        stopPropagation(e);  
+        });  
+        
+         
+       //img  button
+        
+       $('#imagebtn').click(function(){
+            // add a new div which is fixed                     
+            
+           
+       }) 
+       $('#imagebtn1').click(function(){
+            // add a new div which is fixed                     
+
+            socket.emit('image choose', {name:"<%= id %>",msg:"img1"});
+            return false;
+       })
+       $('#imagebtn2').click(function(){
+            // add a new div which is fixed                     
+  
+            socket.emit('image choose', {name:"<%= id %>",msg:"img2"});
+            return false;
+       })
+
+       
+        
+       //socket 
+       
+       
+       //send button
+        $('form').submit(function(){
+       //send msg in input field
+       socket.emit('chat message',{ name:"<%= id %>",msg:$('#m').val()  } );
+        //clear it
+        $('#m').val('');
+        return false;
+      });
+       
+       
+       //accept msg 
+       socket.on('chat message', function(data){ 
+       var msg_box = document.createElement("div");
+       //var msg_d2 = document.createElement("div");
+       var d=document.createElement("div");
+       var d2=document.createElement("div");
+       var d3=document.createElement("div");
+           d.innerHTML=data.name+":";
+           d2.innerHTML=data.msg;
+           d3.innerHTML=data.time;
+       msg_box.setAttribute("class","messages_div");
+       d.setAttribute("class","user");
+       d2.setAttribute("class","text");
+       d3.setAttribute("class","time");
+       msg_box.appendChild(d);
+       msg_box.appendChild(d2);
+       msg_box.appendChild(d3);
+       $('#messages').prepend(msg_box);
+   
+       });
+       //show image
+       socket.on('image show', function(data){
+           console.log("got image1")
+            if(data.image){
+                console.log("got image2")
+                var image = new Image();
+                image.src = 'data:image/png;base64,' + data.buffer;
+                
+                var msg_box = document.createElement("div");
+                var d = document.createElement("img");
+                var d2=document.createElement("div");
+                var d3=document.createElement("div");
+                
+                msg_box.setAttribute("class","messages_div");
+                d.setAttribute("src",image.src);
+                d.setAttribute("class","msg_img");
+                d2.innerHTML=data.time;
+                d3.innerHTML=data.name+":";
+                
+               
+                d2.setAttribute("class","time");
+                d3.setAttribute("class","user");
+                
+                msg_box.appendChild(d3);
+                msg_box.appendChild(d);
+                msg_box.appendChild(d2);
+                $('#messages').prepend(msg_box);
+                //$('#messages').prepend($('<li>').append('<img src='+ image.src + ' height="60" width="60" />'));
+            }
+       });
+        
+        
+        
+    </script>
+    
+    
+</body>

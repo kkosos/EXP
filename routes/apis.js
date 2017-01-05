@@ -84,6 +84,33 @@ router.post('/login',function(req,res,next) {
 }
 );
 
+router.get('/delete_article/:id',function(req,res,next){
+    console.log("now to add")
+    //console.log(req.body.article)
+    if(!req.session.name||!req.session.logined){
+        res.redirect('/')
+    }
+    Article.remove({_id:req.params.id},function(err){if(err)console.log("delete error.");});	
+    
+    res.redirect('/');
+    
+    
+});
+
+router.post('/update_article/:id',function(req,res,next){
+    console.log("now to update")
+    //console.log(req.body.article)
+    if(!req.session.name||!req.session.logined){
+        res.redirect('/')
+    }
+    Article.update({_id:req.params.id},{Context:req.body.article},function(err){if(err)console.log("delete error.");});	
+    
+    res.redirect('/');
+    
+    
+});
+
+
 
 router.post('/add_article',function(req,res,next){
     //console.log("now to add")
@@ -92,9 +119,15 @@ router.post('/add_article',function(req,res,next){
         res.redirect('/')
     }
     
+	var a = new Date().getTime();
+	var b = new Date().getTimezoneOffset()*60000;
+	var date_now = new Date(a-b).toISOString().replace('T', ' ').substr(0, 19);
+	
+	
     new Article({
         username:req.session.name,
-        Context:req.body.article
+        Context:req.body.article,
+		Date:date_now
     }).save(function(err){
         if(err){console.log('Context save failed');return;}
         console.log('save to db context')

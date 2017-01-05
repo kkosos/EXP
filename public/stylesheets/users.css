@@ -1,13 +1,22 @@
 #sidebar_left{
+	position:fixed;
 	background-color:white;
-	width:10%;
+	width:30%;
 	height:80%;
+	top:15%;
 }
 #panda{
 	width:350px;
 	height:200px;
 	
 }
+#header{
+	position:fixed;
+	display: inline-block;
+	z-index:5;
+}
+
+
 body {margin:0;background-color:white;}
 ul {
 	border: 1px solid #e7e7e7;
@@ -49,25 +58,86 @@ li a {
 	height:60px;
 	width:60px;
 }
+
+.article{
+	width:100%;
+	display:inline-block;
+	background-color: #d0d0d0;
+}
+
 .article_author{
 	font-size :large;
 	text-align:left;
-	height:50px;
-	width:200px;
-	border:3px #cccccc solid;
-	margin: 0;
-    padding: 0;
+	/*height:50px;
+	width:200px;*/
+	/*border:1px #cccccc solid;*/
+	padding:5px 5px 0 5px;
+
 }
-.article{
+.article_content{
+	position:relative;
+	top:20px;
 	font-size :large;
 	text-align:left;
 	height:100px;
-	width:200px;
-	border:3px #cccccc solid;
-	margin: 0;
-    padding: 0;
+	width:100%;
+	padding-left:20px;
+	/*border:1px pink solid;*/
+
 }
+.article_time{
+	font-size :large;
+	text-align:right;
+	 padding-right: 1%;
+}
+
+.linkbtn{
+	display:inline-block;
+	width:100%;
+	
+}
+
+.linkbtn div{
+	display:inline-block;
+	float:right;
+	background-color: #d0d0d0;
+}
+.linkbtn a{
+	text-decoration : none;
+	width:20%;
+	background-color: #d0d0d0;
+}
+.linkbtn a:visited{
+	color:#6C6C6C
+}
+.linkbtn a:link{
+	color:#6C6C6C
+}
+
+
 .sidebar{
 	background-color: white;
 }
 
+.chatroom_bar{
+	position:fixed;
+	right:1;
+	bottom:1;
+	border:none;
+	height:90%;
+	width:25%;
+
+}
+.content{
+	position:absolute;
+	left:30%;
+	top:15%;
+	width:40%;	
+	overflow:hidden;
+	
+
+}
+
+.friend_list{
+	
+}

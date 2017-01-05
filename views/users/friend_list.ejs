@@ -1,0 +1,42 @@
+<head>
+	<meta charset = "utf-8">
+	<title id ="title">EXPENDA</title>
+	
+	<link rel = "stylesheet" type = "text/css" href = "/stylesheets/users.css">
+	<!--  <link rel = "stylesheet" type = "text/css" href = "/bootstrap-3.3.7-dist/css/bootstrap.min.css"> -->
+</head>
+<body>
+	<div id="sitebody" class="container">
+		<div id="header" role="navigation">
+			<ul>
+				<li style="text-align:center;"><img  class="logo" src="/images/logo.png"> </li>
+			  	<li><a href="/" class="active">Home</a></li>
+			  	<li><a href="/users/notification">Notification</a></li>
+				<% if(authenticated){ %>
+			  	<li style="float:right;"><a href="/users/logout">Logout</a></li>
+				<% } %>
+			</ul>
+		</div>
+		<!--navigator -->
+		
+	　	<div id="sidebar_left">
+			<a  class="sidebar" href="/users/add" >Post</a>
+			<a  class="sidebar" href="/users/friend_list/<%= id %>" >Friend_List</a>
+			<iframe id="panda" src="http://www.pandorabots.com/pandora/talk?botid=8693dba7ee37b4f6&skin=a">
+			</iframe>
+		</div>
+				
+		<!-- main bar    object:arts-->
+		<div class="content">
+		<% for(var i in lst){ console.log(lst[i]) %>
+		<div class="friend_list"><a href='/users/a/<%= lst[i].friend %>'><%= lst[i].friend%></a></div>
+		
+		<% } %>
+		</div>
+		<div id="chatroom">
+			<iframe id="chatbar" class="chatroom_bar" src="/socket/chatroom">
+			</iframe>
+		</div>
+		
+	</div>
+</body>
