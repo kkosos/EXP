@@ -45,6 +45,7 @@ var apis  = require('./routes/apis');
 
 //socket
 var socket_server = require('./routes/socket_server');
+
 var io           = socket_io();
 app.io           = io;
 
@@ -54,20 +55,8 @@ app.use('/users', users);
 app.use('/apis',apis)
 app.use('/socket',socket_server)
 
+var so = require('./routes/socket_s')(io);
 
-io.on( "connection", function( socket )
-{
-    console.log( "A user connected" );
-	
-	socket.on ('disconnect', function(){console.log('user disconnected');});
-	
-	socket.on('chat message', function(msg){ console.log('message: ' + msg);
-										   
-										   io.emit('chat message', msg);
-										   
-										   });
-
-});
 	
 
 

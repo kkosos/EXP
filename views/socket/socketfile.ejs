@@ -20,20 +20,37 @@
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
     
+    <button type="button" id="btn">IMG</button>
+    
+    
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
+       //send button
         $('form').submit(function(){
-        socket.emit('chat message', $('#m').val()   );
+       //send msg in input field
+       socket.emit('chat message', "<%= id %>:  "+$('#m').val()   );
+        //clear it
         $('#m').val('');
         return false;
       });
-       socket.on('chat message', function(msg){
-       
-       var tmp_msg = "<%= id %>:  " + msg;
         
-        $('#messages').prepend($('<li>').text(tmp_msg));
-      });
+       //socket 
+       //msg 
+       socket.on('chat message', function(msg){       
+       //var tmp_msg = "<%= id %>:  " + msg;        
+       // $('#messages').prepend($('<li>').text(tmp_msg));
+       $('#messages').prepend($('<li>').text(msg));
+       });
+       //img
+       socket.on('image', function(img){       
+       //var tmp_msg = "<%= id %>:  " + msg;        
+       // $('#messages').prepend($('<li>').text(tmp_msg));
+       //$('#messages').prepend($('<li>').text(msg));
+       });
+        
+        
+        
     </script>
     
     
