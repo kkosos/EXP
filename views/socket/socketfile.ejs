@@ -9,7 +9,17 @@
       #imgdiv  {position:fixed;display:none;border:1px solid silver;background:silver; width:20%;height:35%;overflow:auto;padding:5px}        
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      /*#messages li:nth-child(odd) { background: #eee; }*/
+      
+      .messages_div { padding: 5px 10px; display:block; }
+      .messages_div:nth-child(odd) { background: #D2E9FF }  
+      .text{font-size:135%;}
+      .user{font-size:140%;}  
+      .time{font-size:135%; color:gray}
+      .msg_img{height:60px;width:60px;}
+      .messages_div div{ padding: 5px 10px; display:inline-block; }
+        
+        
       #imagebtn { width: 8%; background: rgb(130, 224, 255); border: none; padding: 5px;}
       .sendit {width: 9%; background: rgb(130, 224, 255); border: none; padding: 5px; }
       .imgbtn {border: none;padding:0;}
@@ -49,20 +59,19 @@
         var socket = io();
         
                 
-        function show(obj,id) { 
-        
+        function show(obj,id) {         
         var objDiv = $("#"+id+""); 
         $(objDiv).css("display","inline-block"); 
         $(objDiv).css("bottom", "8%"); 
         $(objDiv).css("right", "8%"); 
-            stopPropagation();  
+     
         } 
         function hide(obj,id) { 
         var objDiv = $("#"+id+""); 
         $(objDiv).css("display", "none"); 
         }  
        
-        //bind click
+        //bind click to make div show and hide
         $(document).bind('click', function(e) {  
             var e = e || window.event; 
             var elem = e.target || e.srcElement; 
@@ -84,14 +93,6 @@
         stopPropagation(e);  
         });  
         
-       //send button
-        $('form').submit(function(){
-       //send msg in input field
-       socket.emit('chat message', "<%= id %>:  "+$('#m').val()   );
-        //clear it
-        $('#m').val('');
-        return false;
-      });
          
        //img  button
         
@@ -103,22 +104,50 @@
        $('#imagebtn1').click(function(){
             // add a new div which is fixed                     
 
-            socket.emit('image choose', "img1");
+            socket.emit('image choose', {name:"<%= id %>",msg:"img1"});
             return false;
        })
        $('#imagebtn2').click(function(){
             // add a new div which is fixed                     
   
-            socket.emit('image choose', "img2");
+            socket.emit('image choose', {name:"<%= id %>",msg:"img2"});
             return false;
        })
 
        
         
        //socket 
+       
+       
+       //send button
+        $('form').submit(function(){
+       //send msg in input field
+       socket.emit('chat message',{ name:"<%= id %>",msg:$('#m').val()  } );
+        //clear it
+        $('#m').val('');
+        return false;
+      });
+       
+       
        //accept msg 
-       socket.on('chat message', function(msg){       
-       $('#messages').prepend($('<li>').text(msg));
+       socket.on('chat message', function(data){ 
+       var msg_box = document.createElement("div");
+       //var msg_d2 = document.createElement("div");
+       var d=document.createElement("div");
+       var d2=document.createElement("div");
+       var d3=document.createElement("div");
+           d.innerHTML=data.name+":";
+           d2.innerHTML=data.msg;
+           d3.innerHTML=data.time;
+       msg_box.setAttribute("class","messages_div");
+       d.setAttribute("class","user");
+       d2.setAttribute("class","text");
+       d3.setAttribute("class","time");
+       msg_box.appendChild(d);
+       msg_box.appendChild(d2);
+       msg_box.appendChild(d3);
+       $('#messages').prepend(msg_box);
+   
        });
        //show image
        socket.on('image show', function(data){
@@ -127,7 +156,27 @@
                 console.log("got image2")
                 var image = new Image();
                 image.src = 'data:image/png;base64,' + data.buffer;
-                $('#messages').prepend($('<li>').append('<img src='+ image.src + ' height="60" width="60" />'));
+                
+                var msg_box = document.createElement("div");
+                var d = document.createElement("img");
+                var d2=document.createElement("div");
+                var d3=document.createElement("div");
+                
+                msg_box.setAttribute("class","messages_div");
+                d.setAttribute("src",image.src);
+                d.setAttribute("class","msg_img");
+                d2.innerHTML=data.time;
+                d3.innerHTML=data.name+":";
+                
+               
+                d2.setAttribute("class","time");
+                d3.setAttribute("class","user");
+                
+                msg_box.appendChild(d3);
+                msg_box.appendChild(d);
+                msg_box.appendChild(d2);
+                $('#messages').prepend(msg_box);
+                //$('#messages').prepend($('<li>').append('<img src='+ image.src + ' height="60" width="60" />'));
             }
        });
         
