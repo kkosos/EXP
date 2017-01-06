@@ -1,6 +1,32 @@
-<h3>Add_article</h3>
-<form id="add" action="/apis/add_article" method="POST">
-	<h1>add</h1>
-	<textarea name="article" rows="4" cols="50"></textarea>
-	<input id="ttadd" type="submit"></input>
-</form>
+<head>
+	<meta charset = "utf-8">
+	<title id ="title">EXPENDA</title>
+	
+	<link rel = "stylesheet" type = "text/css" href = "/stylesheets/users.css">
+	<link rel = "stylesheet" type = "text/css" href = "/bootstrap-3.3.7-dist/css/bootstrap.min.css"> 
+</head>
+<body>
+	<div id="sitebody" class="container">
+		<div id="header" role="navigation" >
+			<ul class="nav navbar-fixed-top">
+				<li style="text-align:center;"><img style="height:60px;width:60px;" src="/images/logo.png"> </li>
+			  	<li><a href="/" >Home</a></li>
+			  	<li ><a>Notification</a></li>
+			  	<li><a   class="active"href="/users/add" >Post</a></li>
+			</ul>
+		</div>
+		<!--chatbot -->
+	　	<div id="chatroom" class="chatbot" >
+			<iframe class="bot" src="http://www.pandorabots.com/pandora/talk?botid=8693dba7ee37b4f6"></iframe>
+		</div>
+		<div class ="content pull-left">
+			<h3>Add_article</h3>
+			
+		</div>
+		<div id="chatroom" class ="pull-right">
+			<iframe id="chatbar" class="chatroom_bar" src="/socket/chatroom">
+			</iframe>
+		</div>
+	</div>
+</body>
+

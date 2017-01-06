@@ -1,15 +1,4 @@
-#sidebar_left{
-	position:fixed;
-	background-color:white;
-	width:30%;
-	height:80%;
-	top:15%;
-}
-#panda{
-	width:350px;
-	height:200px;
-	
-}
+
 #header{
 	position:fixed;
 	display: inline-block;
@@ -17,7 +6,7 @@
 }
 
 
-body {margin:0;background-color:white;}
+body {margin:0;background-color:lightgray;}
 ul {
 	border: 1px solid #e7e7e7;
     background-color: #f3f3f3;
@@ -90,7 +79,23 @@ li a {
 	text-align:right;
 	 padding-right: 1%;
 }
-
+.bot{
+	width:85%;
+	height:90%;
+	border:none;
+}
+.chatbot{
+	background-color:silver;
+	border-right-style:groove;
+	border-right-color:white;
+	border-right-width:thin;
+	position:fixed;
+	left:1;
+	bottom:1;
+	border:none;
+	height:90%;
+	width:35%;
+}
 .linkbtn{
 	display:inline-block;
 	width:100%;
@@ -116,22 +121,29 @@ li a {
 
 
 .sidebar{
-	background-color: white;
+	background-color: #f1f1f1;;
+	font-size:x-large;
 }
 
 .chatroom_bar{
+	border-left-style:groove;
+	border-left-color:white;
+	border-left-width:thin;
+	background-color:#C0C0C0;
+	color:black;
 	position:fixed;
 	right:1;
 	bottom:1;
 	border:none;
-	height:90%;
+	height:92%;
 	width:25%;
 
 }
 .content{
+	background-color:silver;
 	position:absolute;
 	left:30%;
-	top:15%;
+	top:10%;
 	width:40%;	
 	overflow:hidden;
 	

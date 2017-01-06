@@ -19,7 +19,7 @@
       #imagebtn { width: 18%; background: rgb(130, 224, 255); border: none; padding: 5px;}
       
 
-	  .messages_div { padding: 5px 10px; display:block; }
+	  .messages_div { background: white;padding: 5px 10px; display:block; }
       .messages_div:nth-child(odd) { background: #D2E9FF }  
       .text{font-size:135%;}
       .user{font-size:140%;}  
