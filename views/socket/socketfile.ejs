@@ -82,14 +82,24 @@
        }) 
        $('#imagebtn1').click(function(){
             // add a new div which is fixed                     
-
-            socket.emit('image choose', {name:"<%= id %>",msg:"img1"});
+            if(!tmp.checked){
+            socket.emit('image choose', {name:"<%= id %>",msg:"img1"});          
+            }
+            else{
+            socket.emit('image choose', {name:"匿名者",msg:"img1"});
+            }
             return false;
        })
        $('#imagebtn2').click(function(){
             // add a new div which is fixed                     
   
-            socket.emit('image choose', {name:"<%= id %>",msg:"img2"});
+            if(!tmp.checked){
+            socket.emit('image choose', {name:"<%= id %>",msg:"img2"});          
+            }
+            else{
+            socket.emit('image choose', {name:"匿名者",msg:"img2"});
+            }
+           
             return false;
        })
 
