@@ -42,6 +42,17 @@ router.get('/logout', function(req, res, next) {
   
   
 });
+
+router.get('/game', function(req, res, next) {
+  if(!req.session.name||!req.session.logined)
+  { 
+    res.redirect('/')
+  }
+  res.redirect('users/game');
+  
+});
+
+
 router.get('/idpage',function(req,res,next){
   if(!req.session.name||!req.session.logined)
   { 
