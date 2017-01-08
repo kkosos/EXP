@@ -15,7 +15,7 @@ ul {
     padding: 0;
 	position: fixed;
     top: 0;
-    height:5%;
+    height:10%;
     width: 100%;
 }
 a {
@@ -87,6 +87,12 @@ li a {
 	width:60%;
 	height:100%;
 	border:none;
+}
+.panel-heading{
+	font-size:300%;	
+}
+.panel-body{
+	font-size:250%;	
 }
 .chatbot{
 	background-color:silver;

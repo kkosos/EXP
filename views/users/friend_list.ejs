@@ -5,33 +5,42 @@
 	<link rel = "stylesheet" type = "text/css" href = "/stylesheets/users.css">
 	<link rel = "stylesheet" type = "text/css" href = "/bootstrap-3.3.7-dist/css/bootstrap.min.css"> 
 </head>
-<body>
+<body style="background-color:silver;">
 	<div id="sitebody" class="container">
-		<div id="header" role="navigation">
+		<div id="header" role="navigation" >
 			<ul class="nav navbar-fixed-top">
-				<li style="text-align:center;"><img  class="logo" src="/images/logo.png"> </li>
-			  	<li><a href="/">Home</a></li>
-			  	<li><a href="/users/notification">Notification</a></li>
-			  	<li><a class="active"href="/users/friend_list/<%= id %>" >Friend_List</a></li>
+				<li style="text-align:center;"><img style="height:100%;width:100%;" src="/images/logo.png"> </li>
+			  	<li class="active"><a href="/" >Home</a></li>
+			  	<li ><a>Notification</a></li>
+				<li><a  href="/users/friend_list/<%= id %>" >Friend_List</a><li>
+				<li><a  href="/users/game" >Game</a><li>
 				<% if(authenticated){ %>
-			  	<li style="float:right;"><a href="/users/logout">Logout</a></li>
+				  <li style="float:right;"><a href="/users/logout">Logout</a></li>
 				<% } %>
+				
 			</ul>
 		</div>
 		<!--chatbot -->
 	　	<div id="chatroom" class="chatbot" >
 			<iframe class="bot" src="http://www.pandorabots.com/pandora/talk?botid=8693dba7ee37b4f6"></iframe>
-		</div>		
-		<!-- main bar    object:arts-->
-		<div class="content">
+		</div>
+		<!-- show Article    object:arts-->
+			
+		<!-- content div-->
+				<!-- main bar    object:arts-->
+		<div class="content panel panel-success pull-left">
+		<div class="panel-heading">Friends List</div>
 		<% for(var i in lst){ console.log(lst[i]) %>
-		<div class="friend_list"><a href='/users/a/<%= lst[i].friend %>'><%= lst[i].friend%></a></div>
+		<div class="friend_list panel-body">
+			<a href='/users/a/<%= lst[i].friend %>'><%= lst[i].friend%></a>
+		</div>
 		<% } %>
 		</div>
-		<div id="chatroom">
+		<div id="chatroom" class ="pull-right">
 			<iframe id="chatbar" class="chatroom_bar" src="/socket/chatroom">
 			</iframe>
 		</div>
-		
 	</div>
 </body>
+	
+
