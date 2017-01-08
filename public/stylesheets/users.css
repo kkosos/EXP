@@ -28,6 +28,7 @@ a {
 li {
 	text-align:center;
 	height:100%;
+	width:10%;
 	font-size :150%;
     display: inline;
 	float: left;
