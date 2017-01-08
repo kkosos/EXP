@@ -15,19 +15,20 @@ ul {
     padding: 0;
 	position: fixed;
     top: 0;
-    height:10%;
+    height:5%;
     width: 100%;
 }
 a {
+	text-align:center;
 	height:100%;
     width: 100%;
     display: block;
-    padding: 8px;
     background-color: #white;
 }
 li {
+	text-align:center;
 	height:100%;
-	font-size :130%;
+	font-size :150%;
     display: inline;
 	float: left;
 	border-right: 2px solid #bbb;
