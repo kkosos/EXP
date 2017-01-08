@@ -48,7 +48,8 @@ router.get('/game', function(req, res, next) {
   { 
     res.redirect('/')
   }
-  res.redirect('users/game');
+  console.log("HI");
+  res.render('users/game');
   
 });
 
