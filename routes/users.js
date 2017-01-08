@@ -48,7 +48,7 @@ router.get('/game', function(req, res, next) {
   { 
     res.redirect('/')
   }
-  console.log("HI");
+  res.locals.authenticated = req.session.logined;
   res.render('users/game');
   
 });
