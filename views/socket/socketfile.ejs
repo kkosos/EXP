@@ -10,6 +10,7 @@
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" />
+        <input type="checkbox" id="anonymus">匿名
         <button type="button" id="imagebtn" onClick="show(this,'imgdiv');"  >IMG</button>   
          
         <button type="submit" class="sendit">Send</button>
@@ -100,7 +101,13 @@
        //send button
         $('form').submit(function(){
        //send msg in input field
+       var tmp = document.getElementById("anonymus");
+       console.log(tmp.checked)
+       if(!tmp.checked)
        socket.emit('chat message',{ name:"<%= id %>",msg:$('#m').val()  } );
+       else{
+       socket.emit('chat message',{ name:"匿名者",msg:$('#m').val()  } );
+       }
         //clear it
         $('#m').val('');
         return false;
@@ -118,6 +125,7 @@
            d2.innerHTML=data.msg;
            d3.innerHTML=data.time;
        msg_box.setAttribute("class","messages_div");
+
        d.setAttribute("class","user");
        d2.setAttribute("class","text");
        d3.setAttribute("class","time");

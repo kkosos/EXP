@@ -13,18 +13,20 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width:120px;
 	position: fixed;
     top: 0;
+    height:10%;
     width: 100%;
 }
 a {
+	
     display: block;
     padding: 8px;
     background-color: #white;
 }
 li {
-	font-size :xx-large;
+	height:100%;
+	font-size :130%;
     display: inline;
 	float: left;
 	border-right: 2px solid #bbb;
@@ -135,7 +137,7 @@ li a {
 	right:1;
 	bottom:1;
 	border:none;
-	height:80%;
+	height:90%;
 	width:25%;
 
 }
